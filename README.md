@@ -1,2 +1,2 @@
-# garden
- a productivity tool
+# GARDEN
+This is a productivity app for tracking time.
