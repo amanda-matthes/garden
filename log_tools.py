@@ -2,8 +2,6 @@ import streamlit as st
 import json
 import pandas as pd
 
-from datetime import datetime
-
 log_file_name = 'data/log.json'
 
 def _display_json():

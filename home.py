@@ -2,7 +2,7 @@ import streamlit as st
 from PIL import Image
 
 import time
-from datetime import datetime, timezone
+from datetime import datetime
 
 import session_tools
 import tag_tools
