@@ -1,14 +1,22 @@
 import streamlit as st
 from PIL import Image
 
-timer_column, garden_column = st.columns(2, gap = 'large')
+import time
+from datetime import datetime, timezone
+
+import session_tools
+import tag_tools
+import log_tools
 
 # SETTINGS
+st.set_page_config(layout = 'wide')
+
+timer_column, data_column, garden_column = st.columns([1, 2, 1], gap = 'large')
+
 
 # TIMER
 with timer_column:
     st.write('# timer')
-    event_in_progress = False
     mode = st.selectbox('mode', ['countdown', 'stopwatch'], )
 
     if mode == 'countdown':
@@ -16,12 +24,99 @@ with timer_column:
     else:
         st.write('stopwatch')
 
+        start_button = st.button('start')
+
+        if start_button:
+            start_time = time.time()
+            st.write('pressed start button')
+            session_tools.update_start_time(start_time)
+            print(start_time)
+
+
+        end_button  = st.button('end')
+
+        if end_button:
+            end_time = time.time()
+            st.write('pressed end button')
+            session_tools.update_end_time(end_time)
+
+
+            # st.write('elapsed time: {}'.format(end_time - start_time))
+
+            # st.sidebar.write('starting timer')
+
+            # with st.empty():
+            #     done = False
+            #     while not done:
+            #         current_time = time.time()
+            #         elapsed_time = current_time - start_time
+            #         hours, remainder = divmod(int(elapsed_time), 3600)
+            #         minutes, seconds = divmod(remainder, 60)
+
+            #         st.write('{:02}:{:02}:{:02}'.format(hours, minutes, seconds))
+
+            #         if end_button:
+            #             st.sidebar.write('stopping timer')
+            #             st.write('whooo')
+            #             # st.session_state['timing'] = False
+            #             time.sleep(5)
+            #             done == True
+
+            #         time.sleep(1)
+            #     st.write('blob')
+
+            # st.write(start_time)
+            # st.write('DONE')
+            # st.button('something')
+
+
+# DATA
+with data_column:
+    st.write('# data')
+
+    # CURRENT SESSION
+    clear = st.button('clear')
+    if clear:
+        session_tools.clear()
+
+    session_tools.display()
+
+    elapsed_seconds = session_tools.get_elapsed_seconds()
+
+    if elapsed_seconds is not None:
+        hours, remainder = divmod(int(elapsed_seconds), 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        st.write('# {:02}:{:02}:{:02}'.format(hours, minutes, seconds))
+
+
+    # PICK TAG
+    tags            = tag_tools.get_all_tags()
+    selected_tag    = st.selectbox('select tag', tags)
+
+
+    # SAVE TO LOG
+    current_time = datetime.now()
+
+    st.write(current_time)
+
+    save = st.button('save')
+    if save:
+        log_tools.add_event(
+            timestamp   = current_time,
+            duration    = elapsed_seconds,
+            tag         = selected_tag
+        )
+        st.write('saved')
+
+
+
+
 # GARDEN
 with garden_column:
     st.write('# garden')
-    if event_in_progress:
-        st.write('focus on your work')
-    else:
-        st.image(Image.open('media/tree.png'))
+    st.image(Image.open('media/tree.png'))
+    log_tools.display()
 
-st.write(f"streamlit version: {st.__version__}")
+
+st.sidebar.write(f"streamlit version: {st.__version__}")
