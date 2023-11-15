@@ -1,20 +1,35 @@
 import streamlit as st
 import log_tools
-
+import json
 from datetime import datetime
+
 
 st.write('# log')
 
-refresh = st.button('refresh')
-if refresh:
-    log_tools.display()
-else:
+## VIEW
+log_container = st.empty()
+
+with log_container.container():
     log_tools.display()
 
 clear = st.button('clear')
 if clear:
     log_tools.clear()
+    with log_container.container():
+        log_tools.display()
 
+## UPLOAD
+uploaded_log = st.file_uploader(
+    label       = 'upload log',
+    type        = 'json'
+)
+
+if uploaded_log is not None:
+    new_log = json.load(uploaded_log)
+    log_tools.overwrite_log(new_log)
+
+    with log_container.container():
+        log_tools.display()
 
 # DOWNLOAD OPTIONS
 download = st.button('download')
@@ -25,7 +40,7 @@ if download: # prevents generating the csv all the time
 
     # DOWNLOAD AS JSON
     json_string = log_tools.get_json_string()
-    st.json(json_string, expanded=True)
+    # st.json(json_string, expanded=True)
 
     st.download_button(
         label       = 'download log as json',

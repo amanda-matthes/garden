@@ -11,7 +11,7 @@ def _display_json():
 
 def get_json_string():
     with open(log_file_name, 'r') as log_file:
-        log = json.load(log_file)['events']
+        log = json.load(log_file)
     return json.dumps(log, indent = 4)
 
 def _generate_data_frame():
@@ -40,7 +40,10 @@ def get_csv():
 
 def display():
     data_frame = _generate_data_frame()
-    st.write(data_frame)
+    st.dataframe(
+        data    = data_frame,
+        width   = 500
+    )
 
 def clear():
     empty = {
@@ -68,3 +71,7 @@ def add_event(timestamp, duration, tag):
         }
     with open(log_file_name, 'w') as log_file:
         json.dump(output_data, log_file, indent = 4)
+
+def overwrite_log(new_log):
+    with open(log_file_name, 'w') as log_file:
+        json.dump(new_log, log_file, indent = 4)
