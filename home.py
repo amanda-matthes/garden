@@ -17,10 +17,12 @@ timer_column, data_column, garden_column = st.columns([1, 2, 1], gap = 'large')
 # TIMER
 with timer_column:
     st.write('# timer')
-    mode = st.selectbox('mode', ['countdown', 'stopwatch'], )
+    mode = st.selectbox('mode', ['stopwatch', 'countdown'], )
 
     if mode == 'countdown':
         st.write('countdown')
+
+        st.write('todo')
     else:
         st.write('stopwatch')
 
