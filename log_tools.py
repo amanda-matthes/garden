@@ -66,6 +66,5 @@ def add_event(timestamp, duration, tag):
         output_data     = {
             'events': events
         }
-        print(output_data)
     with open(log_file_name, 'w') as log_file:
         json.dump(output_data, log_file, indent = 4)
