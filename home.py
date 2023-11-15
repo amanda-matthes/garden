@@ -28,13 +28,15 @@ with timer_column:
 
         start_button = st.button('start')
         if start_button:
-            start_time = time.time()
+            # start_time = time.time()
+            start_time = datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M:%S')
             session_tools.update_start_time(start_time)
-            session_tools.update_end_time(0)
+            session_tools.update_end_time('1900-01-01_00:00:00')
 
         end_button  = st.button('end')
         if end_button:
-            end_time = time.time()
+            # end_time = time.time()
+            end_time = datetime.strftime(datetime.now(), '%Y-%m-%d_%H:%M:%S')
             session_tools.update_end_time(end_time)
 
 
