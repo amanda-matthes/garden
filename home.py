@@ -61,43 +61,34 @@ with timer_column:
 with data_column:
     st.write('# data')
 
-    # CURRENT SESSION
-    refresh = st.button('refresh')
-    if refresh:
-        session_tools.display()
-    else:
-        session_tools.display()
-
-    clear = st.button('clear')
-    if clear:
-        session_tools.clear()
-
     elapsed_seconds = session_tools.get_elapsed_seconds()
 
     if elapsed_seconds is not None:
+        session_tools.display()
+
         hours, remainder = divmod(int(elapsed_seconds), 3600)
         minutes, seconds = divmod(remainder, 60)
 
-        st.write('# {:02}:{:02}:{:02}'.format(hours, minutes, seconds))
+        st.write('total time was {:02}:{:02}:{:02}'.format(hours, minutes, seconds))
 
-    # PICK TAG
-    tags            = tag_tools.get_all_tags()
-    selected_tag    = st.selectbox('select tag', tags)
+        # PICK TAG
+        tags            = tag_tools.get_all_tags()
+        selected_tag    = st.selectbox('select tag', tags)
 
+        # SAVE TO LOG
+        current_time = datetime.now()
 
-    # SAVE TO LOG
-    current_time = datetime.now()
-
-    save = st.button('save')
-    if save:
-        log_tools.add_event(
-            timestamp   = current_time,
-            duration    = elapsed_seconds,
-            tag         = selected_tag
-        )
-        st.write('saved')
-
-
+        save = st.button('save')
+        if save:
+            log_tools.add_event(
+                timestamp   = current_time,
+                duration    = elapsed_seconds,
+                tag         = selected_tag
+            )
+            st.write('saved')
+            session_tools.clear()
+    else:
+        st.write('get some work done')
 
 
 # GARDEN
