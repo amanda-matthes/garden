@@ -29,11 +29,15 @@ with timer_column:
     else:
         status = st.empty()
 
-        status.text('no timer running')
+        current_start_time = session_tools.get_start_time_string()
+        if current_start_time != '1900-01-01_00:00:00':
+            status.text('timer started at ' + current_start_time)
+        else:
+            status.text('no timer running')
 
         # CONTROL BUTTONS
-        start_button = st.button('start')
-        end_button  = st.button('end')
+        start_button    = st.button('start')
+        end_button      = st.button('end')
         if start_button:
             start_time = datetime.now()
             session_tools.update_start_time(datetime.strftime(start_time, '%Y-%m-%d_%H:%M:%S'))
