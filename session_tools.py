@@ -37,8 +37,14 @@ def update_end_time(end_time):
 def get_start_time():
     return datetime.strptime(_get('start_time'),    '%Y-%m-%d_%H:%M:%S')
 
+def get_start_time_string():
+    return _get('start_time')
+
 def get_end_time():
     return datetime.strptime(_get('end_time'),      '%Y-%m-%d_%H:%M:%S')
+
+def get_end_time_string():
+    return _get('end_time')
 
 def get_elapsed_seconds():
     start_time = get_start_time()
