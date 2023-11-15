@@ -9,6 +9,11 @@ def _display_json():
         log = json.load(log_file)['events']
     st.write(log)
 
+def get_json_string():
+    with open(log_file_name, 'r') as log_file:
+        log = json.load(log_file)['events']
+    return json.dumps(log, indent = 4)
+
 def _generate_data_frame():
     with open(log_file_name, 'r') as log_file:
         events = json.load(log_file)['events']
@@ -28,6 +33,10 @@ def _generate_data_frame():
     data_frame['tag']       = tags
 
     return data_frame
+
+def get_csv():
+    data_frame = _generate_data_frame()
+    return data_frame.to_csv().encode('utf-8')
 
 def display():
     data_frame = _generate_data_frame()
