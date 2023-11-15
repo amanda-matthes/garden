@@ -27,19 +27,14 @@ with timer_column:
         st.write('stopwatch')
 
         start_button = st.button('start')
-
         if start_button:
             start_time = time.time()
-            st.write('pressed start button')
             session_tools.update_start_time(start_time)
-            print(start_time)
-
+            session_tools.update_end_time(0)
 
         end_button  = st.button('end')
-
         if end_button:
             end_time = time.time()
-            st.write('pressed end button')
             session_tools.update_end_time(end_time)
 
 
@@ -77,11 +72,15 @@ with data_column:
     st.write('# data')
 
     # CURRENT SESSION
+    refresh = st.button('refresh')
+    if refresh:
+        session_tools.display()
+    else:
+        session_tools.display()
+
     clear = st.button('clear')
     if clear:
         session_tools.clear()
-
-    session_tools.display()
 
     elapsed_seconds = session_tools.get_elapsed_seconds()
 
@@ -90,7 +89,6 @@ with data_column:
         minutes, seconds = divmod(remainder, 60)
 
         st.write('# {:02}:{:02}:{:02}'.format(hours, minutes, seconds))
-
 
     # PICK TAG
     tags            = tag_tools.get_all_tags()
