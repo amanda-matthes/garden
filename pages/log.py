@@ -12,11 +12,11 @@ log_container = st.empty()
 with log_container.container():
     log_tools.display()
 
-clear = st.button('clear')
-if clear:
-    log_tools.clear()
-    with log_container.container():
-        log_tools.display()
+# clear = st.button('clear')
+# if clear:
+#     log_tools.clear()
+#     with log_container.container():
+#         log_tools.display()
 
 ## UPLOAD
 uploaded_log = st.file_uploader(
@@ -50,11 +50,11 @@ if download: # prevents generating the csv all the time
     )
 
     # DOWNLOAD AS CSV
-    csv = log_tools.get_csv()
+    # csv = log_tools.get_csv()
 
-    st.download_button(
-        label       = "download log as csv",
-        file_name   = file_name + '_log.csv',
-        mime        = 'text/csv',
-        data        = csv
-    )
+    # st.download_button(
+    #     label       = "download log as csv",
+    #     file_name   = file_name + '_log.csv',
+    #     mime        = 'text/csv',
+    #     data        = csv
+    # )
