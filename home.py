@@ -43,8 +43,9 @@ with timer_column:
             session_tools.update_end_time('1900-01-01_00:00:00')
             status.text('timer started at ' + datetime.strftime(start_time, '%Y-%m-%d_%H:%M:%S'))
         if end_button:
-            end_time = datetime.now()
-            session_tools.update_end_time(datetime.strftime(end_time, '%Y-%m-%d_%H:%M:%S'))
+            if session_tools.get_start_time_string() != '1900-01-01_00:00:00':
+                end_time = datetime.now()
+                session_tools.update_end_time(datetime.strftime(end_time, '%Y-%m-%d_%H:%M:%S'))
 
         # TIMER
         # if start_button:
