@@ -1,9 +1,9 @@
 import streamlit as st
 from PIL import Image
 
-import time
 from datetime import datetime
 
+import json
 import session_tools
 import tag_tools
 import log_tools
@@ -11,8 +11,7 @@ import log_tools
 # SETTINGS
 st.set_page_config(layout = 'wide')
 
-timer_column, _, garden_column = st.columns([1, 1, 1], gap = 'large')
-
+timer_column, garden_column, log_column = st.columns([1, 1, 1], gap = 'large')
 
 # TIMER
 with timer_column:
@@ -98,7 +97,37 @@ with timer_column:
 with garden_column:
     st.write('# garden')
     st.image(Image.open('media/tree.png'))
+
+
+# LOG
+with log_column:
+    st.write('# log')
+
+    ## UPLOAD
+    uploaded_log = st.file_uploader(
+        label       = 'upload log',
+        type        = 'json'
+    )
+
+    if uploaded_log is not None:
+        new_log = json.load(uploaded_log)
+        log_tools.overwrite_log(new_log)
+
+
+    # VIEW
     log_tools.display()
+
+
+    # DOWNLOAD AS JSON
+    file_name = datetime.today().strftime('%Y-%m-%d_%H-%M')
+    json_string = log_tools.get_json_string()
+
+    st.download_button(
+        label       = 'download log as json',
+        file_name   = file_name + '_log.json',
+        mime        = 'application/json',
+        data        =  json_string
+    )
 
 
 st.sidebar.write(f"streamlit version: {st.__version__}")
