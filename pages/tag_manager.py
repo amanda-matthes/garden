@@ -6,12 +6,20 @@ edit_column, add_column, view_column = st.columns([1, 1, 1], gap = 'large')
 tags = tag_tools.get_all_tags()
 
 with edit_column:
-    st.write('# edit tags')
+    st.write('# remove tags')
 
-    st.selectbox('select tag', tags)
+    tag = st.selectbox('select tag', tags)
 
-    st.button('rename TODO')
-    st.button('remove TODO')
+    # REMOVE
+    remove = st.button('remove ' + tag)
+    if remove:
+        tag_tools.remove_tag(tag)
+
+    # # RENAME
+    # new_name = st.text_input('new name')
+    # rename = st.button('rename ' + tag + ' to ' + new_name)
+    # if rename:
+    #     tag_tools.rename_tag(tag, new_name)
 
 
 with add_column:
@@ -24,7 +32,6 @@ with add_column:
         else:
             tag_tools.add_tag(new_tag)
             st.write('added tag for {}'.format(new_tag))
-
 
 with view_column:
     st.write('# view tags')
