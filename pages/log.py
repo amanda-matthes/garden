@@ -12,11 +12,11 @@ log_container = st.empty()
 with log_container.container():
     log_tools.display()
 
-# clear = st.button('clear')
-# if clear:
-#     log_tools.clear()
-#     with log_container.container():
-#         log_tools.display()
+clear = st.button('clear')
+if clear:
+    log_tools.clear()
+    with log_container.container():
+        log_tools.display()
 
 ## UPLOAD
 uploaded_log = st.file_uploader(
@@ -31,30 +31,29 @@ if uploaded_log is not None:
     with log_container.container():
         log_tools.display()
 
+
 # DOWNLOAD OPTIONS
-download = st.button('download')
+file_name = datetime.today().strftime('%Y-%m-%d_%H-%M')
 
-if download: # prevents generating the csv all the time
+# DOWNLOAD AS JSON
+json_string = log_tools.get_json_string()
 
-    file_name = datetime.today().strftime('%Y-%m-%d_%H-%M')
+st.download_button(
+    label       = 'download log as json',
+    file_name   = file_name + '_log.json',
+    mime        = 'application/json',
+    data        =  json_string
+)
 
-    # DOWNLOAD AS JSON
-    json_string = log_tools.get_json_string()
-    # st.json(json_string, expanded=True)
+# download = st.button('download csv')
+# if download: # prevents generating the csv all the time
 
-    st.download_button(
-        label       = 'download log as json',
-        file_name   = file_name + '_log.json',
-        mime        = 'application/json',
-        data        =  json_string
-    )
+#     # DOWNLOAD AS CSV
+#     # csv = log_tools.get_csv()
 
-    # DOWNLOAD AS CSV
-    # csv = log_tools.get_csv()
-
-    # st.download_button(
-    #     label       = "download log as csv",
-    #     file_name   = file_name + '_log.csv',
-    #     mime        = 'text/csv',
-    #     data        = csv
-    # )
+#     # st.download_button(
+#     #     label       = "download log as csv",
+#     #     file_name   = file_name + '_log.csv',
+#     #     mime        = 'text/csv',
+#     #     data        = csv
+#     # )
