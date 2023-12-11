@@ -40,9 +40,21 @@ def get_csv():
 
 def display():
     data_frame = _generate_data_frame()
+    data_frame['duration'] = data_frame['duration'].apply(lambda x: x//60)
+
     st.dataframe(
         data    = data_frame,
-        width   = 500
+        width   = 500,
+        column_config   = {
+            'time'          : st.column_config.DatetimeColumn(
+                format = 'DD MMM YYYY hh:mm a',
+                width  = 150
+            ),
+            'duration'      : st.column_config.NumberColumn(
+                format = '%i min',
+                width = 70
+            )
+        }
     )
 
 def clear():
