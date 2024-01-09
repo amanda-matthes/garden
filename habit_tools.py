@@ -4,8 +4,19 @@ import pandas as pd
 
 from datetime import datetime
 
+import calplot
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
+import os
+
+plt.style.use('dark_background')
+plt.rcParams['savefig.transparent'] = 'true'
+
 habits_file_name        = 'data/habits.json'
 habit_tracker_file_name = 'data/habit_tracker.csv'
+habit_plot_directory    = 'data/habit_plots'
 
 def _get_habits(type):
     with open(habits_file_name, 'r') as file:
@@ -77,6 +88,8 @@ def update_habit(day, habit, value):
         print('something went wrong')
     habit_log.to_csv(habit_tracker_file_name, index = False)
 
+    update_plot(habit)
+
 def remove_habit():
     #TODO implement
     return
@@ -88,3 +101,28 @@ def add_habit(name, type):
     # add to habit_tracker.csv
 
     return
+
+def update_plot(habit):
+    colour = get_colour(habit)
+
+    days        = get_days()
+    events      = pd.Series(
+                    get_events(habit),
+                    index = days
+                )
+
+    fig, _ = calplot.calplot(
+                data        = events,
+                vmin        = 0,
+                vmax        = 1,
+                yearlabels  = True,
+                colorbar    = False,
+                cmap        = ListedColormap(["ivory", colour])
+            )
+
+    file_path = os.path.join(habit_plot_directory, habit + '.png')
+    plt.savefig(file_path, dpi = 500)
+
+def display_plot(habit):
+    file_path = os.path.join(habit_plot_directory, habit + '.png')
+    st.image(file_path, use_column_width=True)
