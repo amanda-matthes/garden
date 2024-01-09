@@ -12,7 +12,7 @@ from matplotlib.colors import ListedColormap
 st.write('# daily tracker')
 
 # UPDATE
-st.write(datetime.today().strftime('## %A %m %B %Y'))
+st.write(datetime.today().strftime('## %A %d %B %Y'))
 
 habits          = habit_tools.get_all_habits()
 checkbox_habits = habit_tools.get_checkbox_habits()
