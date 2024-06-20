@@ -8,6 +8,8 @@ import session_tools
 import tag_tools
 import log_tools
 
+from random import randrange
+
 # SETTINGS
 st.set_page_config(layout = 'wide')
 
@@ -70,7 +72,17 @@ with timer_column:
             st.write('saved')
             session_tools.clear()
     else:
-        st.write('get some work done')
+        messages = [
+            'get some work done',
+            'aim for the door, not for the stars',
+            'it does not have to be good - it just has to be done',
+            'you can do this',
+        ]
+        if selected_tag == 'break':
+            st.write('make a tea')
+        else:
+            message = messages[randrange(len(messages))]
+            st.write(message)
 
 
 # GARDEN
