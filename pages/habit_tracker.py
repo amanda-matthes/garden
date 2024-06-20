@@ -17,7 +17,13 @@ with left_column:
 
     new_values = [0 for i in habits]
     for i, habit in enumerate(checkbox_habits):
-        new_values[i] = st.checkbox(habit)
+        new_values[i] = st.checkbox(
+                            label = habit,
+                            value = habit_tools.get_value(
+                                        datetime.today().strftime('%Y-%m-%d'),
+                                        habit
+                                    )
+                        )
 
     update = st.button('update day')
 

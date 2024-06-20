@@ -90,6 +90,13 @@ def update_habit(day, habit, value):
 
     update_plot(habit)
 
+def get_value(day, habit):
+    habit_log   = pd.read_csv(habit_tracker_file_name)
+    index       = _get_index(day)
+    value       = habit_log.at[index, habit]
+    return value
+
+
 def remove_habit():
     #TODO implement
     return
