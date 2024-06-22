@@ -22,7 +22,7 @@ def _generate_data_frame():
     durations   = []
     tags        = []
 
-    for event in events:
+    for event in reversed(events):
         times.append(event['time'])
         durations.append(event['duration'])
         tags.append(event['tag'])
