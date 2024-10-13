@@ -77,6 +77,13 @@ with timer_column:
             'aim for the door, not for the stars',
             'it does not have to be good - it just has to be done',
             'you can do this',
+            'you are doing so well',
+            'be nice to yourself',
+            'trust the process',
+            'you are making progress',
+            'go and get it',
+            'you are doing all the right things',
+            'it is not too late',
         ]
         if selected_tag == 'break':
             st.write('make a tea')
